@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <title>Document</title>
+  </head>
+
+  <body>
+    <main>
+      <section>
+        <div class="container">
+          <form id="form" class="form-box">
+            <div class="form-control">
+              <label for="zvE">Zu versteuernde Einkommen (zvE):</label>
+              <input id="zvE" type="text" value="0,00" name="zvE" />
+              <label for="zvE">Euro</label>
+            </div>
+            <hr />
+            <div class="form-control">
+              <label for="veranlagung">Art der Veranlagung: </label>
+              <select id="veranlagung" name="veranlagung">
+                <option id="einzel-veranlagung" value="0">
+                  Einzelveranlagung
+                </option>
+                <option id="zusammen-veranlagung" value="1">
+                  Zusammenveranlagung
+                </option>
+              </select>
+            </div>
+            <hr />
+            <div class="form-control">
+              <label for="jahr">Jahr:</label>
+              <select id="jahr" name="jahr">
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+              </select>
+            </div>
+            <hr />
+            <div class="form-control">
+              <label for="kirchen-steuer">Kirchensteuer</label>
+              <select id="kirchen-steuer" name="kirchen-steuer">
+                <option value="keine">keine</option>
+                <option value="8">8% (Baden-Württemberg und Bayern)</option>
+                <option value="9">9% (sonstige Bundesländer)</option>
+              </select>
+            </div>
+            <hr />
+
+            <input type="submit" value="berechnen" class="btn btn-primary" />
+          </form>
+          <hr />
+          <hr />
+          <div class="ergebnis">
+            <div class="einkommenssteuer">Einkommensteuer</div>
+            <div class="solidaritaetszuschlag">Solidaritätszuschlag</div>
+            <div class="kirchensteuer">Kirchensteuer</div>
+            <div class="gesamtbelastung">Gesamtbelastung</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

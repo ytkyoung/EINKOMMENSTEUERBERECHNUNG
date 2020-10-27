@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css?family=Muli&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,500&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+.form-control {
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.form-control label {
+  /* display: inline-block; */
+  margin-bottom: 5px;
+}
+
+.form-control input:focus {
+  outline: 0;
+  border-color: #777;
+}
