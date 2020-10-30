@@ -5,64 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/css/styles.css" />
 
-    <title>Document</title>
+    <title>Einkommensteuerrechner</title>
   </head>
 
   <body>
-    <main>
-      <section>
-        <div class="container">
-          <form id="form" class="form-box">
-            <div class="form-control">
-              <label for="zvE">Zu versteuernde Einkommen (zvE):</label>
-              <input id="zvE" type="text" value="0,00" name="zvE" />
-              <label for="zvE">Euro</label>
-            </div>
-            <hr />
-            <div class="form-control">
-              <label for="veranlagung">Art der Veranlagung: </label>
-              <select id="veranlagung" name="veranlagung">
-                <option id="einzel-veranlagung" value="0">
-                  Einzelveranlagung
-                </option>
-                <option id="zusammen-veranlagung" value="1">
-                  Zusammenveranlagung
-                </option>
-              </select>
-            </div>
-            <hr />
-            <div class="form-control">
-              <label for="jahr">Jahr:</label>
-              <select id="jahr" name="jahr">
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-              </select>
-            </div>
-            <hr />
-            <div class="form-control">
-              <label for="kirchen-steuer">Kirchensteuer</label>
-              <select id="kirchen-steuer" name="kirchen-steuer">
-                <option value="keine">keine</option>
-                <option value="8">8% (Baden-Württemberg und Bayern)</option>
-                <option value="9">9% (sonstige Bundesländer)</option>
-              </select>
-            </div>
-            <hr />
+    <div class="container">
+      <h1>Einkommensteuerrechner</h1>
+      <section class="formular">
+        <div class="section-center">
+          <div class="zweiSpalter">
+            <div class="formular card">
+              <form id="form" class="form-box">
+                <div class="form-control">
+                  <label for="zvE"
+                    >Zu versteuerndes Einkommen (zvE) in Euro:</label
+                  >
+                  <input
+                    id="zvE"
+                    type="text"
+                    value="1.000.000,00 €"
+                    onfocus="this.value=''"
+                    name="zvE"
+                    placeholder=""
+                  />
+                </div>
 
-            <input type="submit" value="berechnen" class="btn btn-primary" />
-          </form>
-          <hr />
-          <hr />
-          <div class="ergebnis">
-            <div class="einkommenssteuer">Einkommensteuer</div>
-            <div class="solidaritaetszuschlag">Solidaritätszuschlag</div>
-            <div class="kirchensteuer">Kirchensteuer</div>
-            <div class="gesamtbelastung">Gesamtbelastung</div>
+                <div class="form-control">
+                  <label for="veranlagung">Art der Veranlagung: </label>
+                  <select id="veranlagung" name="veranlagung">
+                    <option id="einzel-veranlagung" value="1">
+                      Einzelveranlagung
+                    </option>
+                    <option id="zusammen-veranlagung" value="2">
+                      Zusammenveranlagung
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-control">
+                  <label for="jahr">Jahr:</label>
+                  <select id="jahr" name="jahr">
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                  </select>
+                </div>
+
+                <div class="form-control">
+                  <label for="kirchen-steuer">Kirchensteuer</label>
+                  <select id="kirchen-steuer" name="kirchen-steuer">
+                    <option value="0">keine</option>
+                    <option value="0.08">
+                      8% (Baden-Württemberg und Bayern)
+                    </option>
+                    <option value="0.09">9% (sonstige Bundesländer)</option>
+                  </select>
+                </div>
+
+                <div class="button-zeile">
+                  <input
+                    type="submit"
+                    value="Berechnen"
+                    class="btn btn-primary"
+                  />
+                  <input
+                    type="button"
+                    onclick="geheAufLos()"
+                    value="Reset form"
+                    class="btn btn-primary"
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="zweiSpalter">
+            <div class="ergebnis card">
+              <div class="zeile-ergebnis">
+                <div class="ergebnis-text box1">Einkommensteuer</div>
+                <div id="einkommensteuer" class="box2">0,00 €</div>
+              </div>
+              <div class="zeile-ergebnis">
+                <div class="ergebnis-text box1">Solidaritätszuschlag</div>
+                <div id="solidaritaetszuschlag" class="box2">0,00 €</div>
+              </div>
+              <div class="zeile-ergebnis">
+                <div class="ergebnis-text box1">Kirchensteuer</div>
+                <div id="kirchensteuer" class="box2">0,00 €</div>
+              </div>
+              <div class="zeile-ergebnis">
+                <div class="ergebnis-text box1">Gesamtbelastung</div>
+                <div id="gesamtbelastung" class="box2">0,00 €</div>
+              </div>
+            </div>
           </div>
         </div>
+        <h2 id="chiffre">000</h2>
       </section>
-    </main>
+    </div>
 
     <script src="assets/js/main.js"></script>
   </body>
