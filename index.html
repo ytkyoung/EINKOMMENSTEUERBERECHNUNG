@@ -25,7 +25,6 @@
                     type="text"
                     value="1.000.000,00 €"
                     onfocus="this.value=''"
-                    onfocusout="outOfFocus()"
                     name="zvE"
                     placeholder=""
                     autocomplete="off"
@@ -66,13 +65,14 @@
 
                 <div class="button-zeile">
                   <input
+                    id="berechnen"
                     type="submit"
                     value="Berechnen"
                     class="btn btn-primary"
                   />
                   <button
+                    id="btn-reset"
                     type="button"
-                    onclick="geheAufLos()"
                     value="Zurücksetzen"
                     class="btn btn-primary"
                   >

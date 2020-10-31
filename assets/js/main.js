@@ -119,8 +119,10 @@ function checkInput() {
     default:
       console.log('o_O');
   }
+  document.querySelector('.form-control').style.background = '#e8e8e8';
 }
 
+// Anzeige Chiffre
 function kraAng() {
   const codeAnzeige = [];
   const jahrValue = jahr.value;
@@ -137,9 +139,6 @@ function kraAng() {
 
 // Euro-Anzeige im Inputfeld
 function checkZvE() {
-  if (zvE.value === 'Eine Zahl wäre nicht schlecht') {
-    zvE.value = '0';
-  }
   const zvEValue = parseInt(zvE.value.replace(/\./g, ''));
   const inEuro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'Eur' })
     .format(zvEValue)
@@ -159,14 +158,25 @@ function outOfFocus() {
   console.log(testN);
   if (testN === '') {
     zvE.value = 'Bitte einen Betrag eingeben';
+    console.log('Bitte einen Betrag eingeben');
   } else if (testN.match(/^\d+$/) && testN !== '0') {
-    console.log('only numbers');
+    console.log(`only numbers${testN.match(/^\d+$/)}`);
     checkZvE();
   } else if (testN === '0') {
     zvE.value = 'Was ist Null geteilt durch Null?';
-  } else {
+  } else if (testN.match(/^\w+$/g)) {
     zvE.value = 'Eine Zahl wäre nicht schlecht';
   }
+}
+
+function allesAufNull() {
+  zvE.innerText = '0,00 €';
+  einkommensteuer.innerText = '0,00 €';
+  soliAusgabe.innerText = '0,00 €';
+  kirchenSteuerAusgabe.innerText = '0,00 €';
+  gesamtbelastung.innerText = '0,00 €';
+  chiffre.innerText = '000';
+  console.log('zurück auf Los 🎩');
 }
 
 function createYear(teiler, prozent, untergrenze, grenze1, grenze2, obergrenze, y1, z1, z2, z3, f4, f5) {
@@ -191,7 +201,6 @@ function createYear(teiler, prozent, untergrenze, grenze1, grenze2, obergrenze, 
     console.log('5. Fall');
     ESt = 0.45 * zvEValue - f5;
   }
-
   zeigeErgebnisse(ESt, teiler, prozent);
 }
 
@@ -229,21 +238,40 @@ function zeigeErgebnisse(EStPara, teilerPara, prozentPara) {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-
   console.clear();
-
   checkZvE();
   checkInput();
   kraAng();
 });
 
-function geheAufLos() {
-  document.getElementById('form').reset();
-  zvE.innerText = '0,00 €';
-  einkommensteuer.innerText = '0,00 €';
-  soliAusgabe.innerText = '0,00 €';
-  kirchenSteuerAusgabe.innerText = '0,00 €';
-  gesamtbelastung.innerText = '0,00 €';
-  chiffre.innerText = '000';
-  console.clear();
+function clickHandler() {
+  console.log('clicked!');
+  gesamtbelastung.classList.add('blink_me');
 }
+function ausDerZone() {
+  console.log('out of box');
+  gesamtbelastung.classList.remove('blink_me');
+  document.querySelector('#berechnen').removeEventListener('click', ausDerZone);
+}
+function bindEvents() {
+  document.querySelector('#berechnen').addEventListener('click', clickHandler);
+  document.querySelector('#berechnen').addEventListener('mouseout', ausDerZone);
+}
+
+bindEvents();
+
+const btn = document.querySelector('#btn-reset');
+
+btn.addEventListener('click', (e) => {
+  e.preventDefault();
+  console.log(e.target.className);
+  document.querySelector('.form-control').style.background = '#bbbfca';
+  document.getElementById('form').reset();
+  allesAufNull();
+  console.clear();
+});
+
+zvE.addEventListener('focusout', (e) => {
+  e.preventDefault();
+  outOfFocus();
+});
