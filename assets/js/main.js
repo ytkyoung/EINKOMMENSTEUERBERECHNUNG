@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint no-use-before-define: ["error", { "functions": false }] */
+
 const form = document.getElementById('form');
 const zvE = document.getElementById('zvE');
 const veranlagung = document.getElementById('veranlagung');
@@ -8,6 +11,45 @@ const kirchenSteuer = document.getElementById('kirchen-steuer');
 const kirchenSteuerAusgabe = document.getElementById('kirchensteuer');
 const gesamtbelastung = document.getElementById('gesamtbelastung');
 const chiffre = document.getElementById('chiffre');
+
+const yeah2020 = {
+  untergrenze: 9408,
+  grenze1: 14532,
+  grenze2: 57051,
+  obergrenze: 270500,
+  y1: 981.87,
+  z1: 212.02,
+  z2: 2397,
+  z3: 972.79,
+  f4: 8963.74,
+  f5: 17078,
+};
+
+const yeah2019 = {
+  untergrenze: 9168,
+  grenze1: 14254,
+  grenze2: 55960,
+  obergrenze: 270500,
+  y1: 980.14,
+  z1: 216.16,
+  z2: 2397,
+  z3: 948.49,
+  f4: 8780.9,
+  f5: 16740.68,
+};
+
+const yeah2018 = {
+  untergrenze: 9000,
+  grenze1: 13996,
+  grenze2: 54949,
+  obergrenze: 260532,
+  y1: 997.8,
+  z1: 220.13,
+  z2: 2397,
+  z3: 948.49,
+  f4: 8621.75,
+  f5: 16437.7,
+};
 
 function checkInput() {
   const krasseVar = [];
@@ -22,15 +64,55 @@ function checkInput() {
   const kirchenSteuerValue = Number(kirchenSteuer.value);
   console.log(`Anno ${jahrValue}`);
   console.log(`${kirchenSteuerValue} Amen 🙏`);
+
   switch (jahrValue) {
     case '2020':
-      jahr2020(personenAnzahl, kirchenSteuerValue);
+      createYear(
+        personenAnzahl,
+        kirchenSteuerValue,
+        yeah2020.untergrenze,
+        yeah2020.grenze1,
+        yeah2020.grenze2,
+        yeah2020.obergrenze,
+        yeah2020.y1,
+        yeah2020.z1,
+        yeah2020.z2,
+        yeah2020.z3,
+        yeah2020.f4,
+        yeah2020.f5
+      );
       break;
     case '2019':
-      jahr2019(personenAnzahl, kirchenSteuerValue);
+      createYear(
+        personenAnzahl,
+        kirchenSteuerValue,
+        yeah2019.untergrenze,
+        yeah2019.grenze1,
+        yeah2019.grenze2,
+        yeah2019.obergrenze,
+        yeah2019.y1,
+        yeah2019.z1,
+        yeah2019.z2,
+        yeah2019.z3,
+        yeah2019.f4,
+        yeah2019.f5
+      );
       break;
     case '2018':
-      jahr2018(personenAnzahl, kirchenSteuerValue);
+      createYear(
+        personenAnzahl,
+        kirchenSteuerValue,
+        yeah2018.untergrenze,
+        yeah2018.grenze1,
+        yeah2018.grenze2,
+        yeah2018.obergrenze,
+        yeah2018.y1,
+        yeah2018.z1,
+        yeah2018.z2,
+        yeah2018.z3,
+        yeah2018.f4,
+        yeah2018.f5
+      );
       break;
 
     default:
@@ -55,12 +137,14 @@ function kraAng() {
 // Euro-Anzeige im Inputfeld
 function checkZvE() {
   const zvEValue = parseInt(zvE.value.replace(/\./g, ''));
+  console.log(zvEValue);
+
   const inEuro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'Eur' })
     .format(zvEValue)
     // .replace('€', '')
     .trim();
 
-  document.getElementById('zvE').value = inEuro;
+  zvE.value = inEuro;
 }
 // Wert in Euro
 function toEuro(x) {
@@ -68,84 +152,44 @@ function toEuro(x) {
   return inEuro;
 }
 
-function jahr2020(teiler, prozent) {
+function test() {
+  console.log(zvE.value === '');
+  const testN = parseInt(zvE.value);
+  if (testN === '') {
+    console.log('eine emty? yes');
+    zvE.value = '0';
+  } else if (typeof testN === 'number') {
+    console.log('eine Zahl');
+    checkZvE();
+  } else if (typeof testN !== 'number') {
+    zvE.value = 'Bitte einen Betrag eingeben';
+    console.log('asdasdihuh');
+  }
+}
+
+function createYear(teiler, prozent, untergrenze, grenze1, grenze2, obergrenze, y1, z1, z2, z3, f4, f5) {
   let ESt = 0;
   const zvEValue = parseInt(zvE.value.replace(/\./g, '')) / teiler;
   console.log(`${zvEValue} mal ${teiler}`);
-  const y = (zvEValue - 9408) / 10000;
-  const z = (zvEValue - 14532) / 10000;
-  if (zvEValue <= 9408) {
+  const y = (zvEValue - untergrenze) / 10000;
+  const z = (zvEValue - grenze1) / 10000;
+  if (zvEValue <= untergrenze) {
     console.log('kleiner als 9408');
     ESt = 0;
-  } else if (zvEValue >= 9409 && zvEValue <= 14532) {
+  } else if (zvEValue >= untergrenze + 1 && zvEValue <= grenze1) {
     console.log('2. Fall');
-    ESt = (981.87 * y + 1400) * y;
-  } else if (zvEValue >= 14533 && zvEValue <= 57051) {
+    ESt = (y1 * y + 1400) * y;
+  } else if (zvEValue >= grenze1 + 1 && zvEValue <= grenze2) {
     console.log('3. Fall');
-    ESt = (212.02 * z + 2397) * z + 972.79;
-  } else if (zvEValue >= 57052 && zvEValue <= 270500) {
+    ESt = (z1 * z + z2) * z + z3;
+  } else if (zvEValue >= grenze2 + 1 && zvEValue <= obergrenze) {
     console.log('4. Fall');
-    ESt = 0.42 * zvEValue - 8963.74;
-  } else if (zvEValue >= 270500) {
+    ESt = 0.42 * zvEValue - f4;
+  } else if (zvEValue >= obergrenze + 1) {
     console.log('5. Fall');
-    ESt = 0.45 * zvEValue - 17078.74;
+    ESt = 0.45 * zvEValue - f5;
   }
 
-  zeigeErgebnisse(ESt, teiler, prozent);
-}
-
-function jahr2019(teiler, prozent) {
-  let ESt = 0;
-  const zvEValue = parseInt(zvE.value.replace(/\./g, '')) / teiler;
-  console.log(typeof zvEValue);
-  console.log(`${zvEValue} mal ${teiler}`);
-  const y = (zvEValue - 9168) / 10000;
-  const z = (zvEValue - 14254) / 10000;
-  if (zvEValue <= 9168) {
-    console.log('kleiner als 9168');
-    ESt = 0;
-  } else if (zvEValue >= 9169 && zvEValue <= 14254) {
-    console.log('2. Fall');
-
-    ESt = (980.14 * y + 1400) * y;
-  } else if (zvEValue >= 14255 && zvEValue <= 55960) {
-    console.log('3. Fall');
-
-    ESt = (216.16 * z + 2397) * z + 965.58;
-  } else if (zvEValue >= 55961 && zvEValue <= 265326) {
-    console.log('4. Fall');
-    ESt = 0.42 * zvEValue - 8780.9;
-  } else if (zvEValue >= 270500) {
-    console.log('5. Fall');
-    ESt = 0.45 * zvEValue - 16740.68;
-  }
-
-  zeigeErgebnisse(ESt, teiler, prozent);
-}
-
-function jahr2018(teiler, prozent) {
-  let ESt = 0;
-  const zvEValue = parseInt(zvE.value.replace(/\./g, '')) / teiler;
-  console.log(typeof zvEValue);
-  console.log(`${zvEValue} mal ${teiler}`);
-  const y = (zvEValue - 9000) / 10000;
-  const z = (zvEValue - 13996) / 10000;
-  if (zvEValue <= 9000) {
-    console.log('kleiner als 9000');
-    ESt = 0;
-  } else if (zvEValue >= 9001 && zvEValue <= 13996) {
-    console.log('2. Fall');
-    ESt = (997.8 * y + 1400) * y;
-  } else if (zvEValue >= 13997 && zvEValue <= 54949) {
-    console.log('3. Fall');
-    ESt = (220.13 * z + 2397) * z + 948.49;
-  } else if (zvEValue >= 54950 && zvEValue <= 260532) {
-    console.log('4. Fall');
-    ESt = 0.42 * zvEValue - 8621.75;
-  } else if (zvEValue >= 260533) {
-    console.log('5. Fall');
-    ESt = 0.45 * zvEValue - 16437.7;
-  }
   zeigeErgebnisse(ESt, teiler, prozent);
 }
 
