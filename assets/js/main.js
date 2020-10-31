@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-/* eslint no-use-before-define: ["error", { "functions": false }] */
-
 const form = document.getElementById('form');
 const zvE = document.getElementById('zvE');
 const veranlagung = document.getElementById('veranlagung');
@@ -13,6 +11,7 @@ const gesamtbelastung = document.getElementById('gesamtbelastung');
 const chiffre = document.getElementById('chiffre');
 
 const yeah2020 = {
+  id: 2020,
   untergrenze: 9408,
   grenze1: 14532,
   grenze2: 57051,
@@ -26,6 +25,7 @@ const yeah2020 = {
 };
 
 const yeah2019 = {
+  id: 2019,
   untergrenze: 9168,
   grenze1: 14254,
   grenze2: 55960,
@@ -39,6 +39,7 @@ const yeah2019 = {
 };
 
 const yeah2018 = {
+  id: 2018,
   untergrenze: 9000,
   grenze1: 13996,
   grenze2: 54949,
@@ -136,9 +137,10 @@ function kraAng() {
 
 // Euro-Anzeige im Inputfeld
 function checkZvE() {
+  if (zvE.value === 'Eine Zahl wäre nicht schlecht') {
+    zvE.value = '0';
+  }
   const zvEValue = parseInt(zvE.value.replace(/\./g, ''));
-  console.log(zvEValue);
-
   const inEuro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'Eur' })
     .format(zvEValue)
     // .replace('€', '')
@@ -152,18 +154,18 @@ function toEuro(x) {
   return inEuro;
 }
 
-function test() {
-  console.log(zvE.value === '');
-  const testN = parseInt(zvE.value);
+function outOfFocus() {
+  const testN = zvE.value;
+  console.log(testN);
   if (testN === '') {
-    console.log('eine emty? yes');
-    zvE.value = '0';
-  } else if (typeof testN === 'number') {
-    console.log('eine Zahl');
-    checkZvE();
-  } else if (typeof testN !== 'number') {
     zvE.value = 'Bitte einen Betrag eingeben';
-    console.log('asdasdihuh');
+  } else if (testN.match(/^\d+$/) && testN !== '0') {
+    console.log('only numbers');
+    checkZvE();
+  } else if (testN === '0') {
+    zvE.value = 'Was ist Null geteilt durch Null?';
+  } else {
+    zvE.value = 'Eine Zahl wäre nicht schlecht';
   }
 }
 
@@ -243,4 +245,5 @@ function geheAufLos() {
   kirchenSteuerAusgabe.innerText = '0,00 €';
   gesamtbelastung.innerText = '0,00 €';
   chiffre.innerText = '000';
+  console.clear();
 }
