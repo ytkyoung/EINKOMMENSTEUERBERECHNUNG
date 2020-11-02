@@ -15,7 +15,7 @@
         <div class="section-center">
           <div class="zweiSpalter">
             <div class="formular card">
-              <form id="form" class="form-box">
+              <form id="form" class="form-box" name="formTest">
                 <div class="form-control">
                   <label for="zvE"
                     >Zu versteuerndes Einkommen (zvE) in Euro:</label
@@ -54,7 +54,7 @@
 
                 <div class="form-control">
                   <label for="kirchen-steuer">Kirchensteuer</label>
-                  <select id="kirchen-steuer" name="kirchen-steuer">
+                  <select id="kirchen-steuer" name="kirchenSteuer">
                     <option value="0">keine</option>
                     <option value="0.08">
                       8% (Baden-Württemberg und Bayern)
@@ -64,12 +64,14 @@
                 </div>
 
                 <div class="button-zeile">
-                  <input
+                  <button
                     id="berechnen"
                     type="submit"
                     value="Berechnen"
                     class="btn btn-primary"
-                  />
+                  >
+                    Berechnen
+                  </button>
                   <button
                     id="btn-reset"
                     type="button"
